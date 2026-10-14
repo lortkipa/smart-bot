@@ -32,8 +32,8 @@ The wordmark is Instrument Sans SemiBold (600), kerned and converted to outlines
 
 | Source | Exports | Platform |
 | --- | --- | --- |
-| `icon/app-icon.svg` | `export/ios/app-icon-1024.png`, `export/android/play-store-512.png`, `export/web/apple-touch-icon.png` | Full-bleed square. iOS, Expo and Play Store apply their own corner mask. Also the input for `pnpm tauri icon` |
-| `icon/app-icon-rounded.svg` | `export/desktop/icon-48…1024.png`, `export/web/icon-192/512.png` | Rounded tile with margin: macOS, Windows, Linux, PWA |
+| `icon/app-icon.svg` | `export/ios/app-icon-1024.png`, `export/android/play-store-512.png`, `export/web/apple-touch-icon.png` | Full-bleed square. iOS, Expo and Play Store apply their own corner mask. Full-bleed, for platforms that mask icons themselves |
+| `icon/app-icon-rounded.svg` | `export/desktop/icon-48…1024.png`, `export/web/icon-192/512.png` | Rounded tile with margin: macOS, Windows, Linux, PWA. Also the input for `pnpm tauri icon` in `apps/desktop` |
 | `icon/app-icon-small.svg` | `export/desktop/icon-16/24/32.png`, `export/web/favicon.ico`, `export/desktop/icon.ico` | Tighter tile with the heavier mark, for tiny sizes |
 | `icon/android-*.svg` | `export/android/ic_launcher_{foreground,background,monochrome}.png` | Android adaptive and themed icons |
 | `icon/maskable.svg` | `export/web/icon-maskable-512.png` | PWA maskable icon |
