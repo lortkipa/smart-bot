@@ -2,7 +2,7 @@
 
 Open source, always-on AI agent platform. Agents run in the cloud 24/7, independent of the user's own devices.
 
-> Status: scaffold. All apps run end to end (clients show API, database and WebSocket status); agents and VMs are not built yet. This file describes the intended design. Update it as decisions change.
+> Status: scaffold. All apps run end to end. Clients show the sign-in flow against a mock auth client (`createMockAuthClient` in `packages/shared`, code `123456`); server auth, agents and VMs are not built yet. This file describes the intended design. Update it as decisions change.
 
 ## Domain model
 

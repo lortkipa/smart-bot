@@ -1,67 +1,61 @@
+import {
+  InstrumentSans_400Regular,
+  InstrumentSans_500Medium,
+  InstrumentSans_600SemiBold,
+  useFonts,
+} from "@expo-google-fonts/instrument-sans";
 import { StatusBar } from "expo-status-bar";
-import { Image, Platform, StyleSheet, Text, useColorScheme, View } from "react-native";
-import { baseUrl } from "./src/lib/api";
-import { useServerStatus } from "./src/lib/useServerStatus";
-
-const palette = {
-  light: { bg: "#FFFFFF", fg: "#000000", muted: "#6B6B6B", line: "#E6E6E6", signal: "#2F7BFF" },
-  dark: { bg: "#000000", fg: "#FFFFFF", muted: "#9A9A9A", line: "#262626", signal: "#4D8FFF" },
-};
-const BAD = "#D14343";
+import { KeyboardAvoidingView, ScrollView, StyleSheet, View } from "react-native";
+import { SafeAreaProvider, SafeAreaView } from "react-native-safe-area-context";
+import { SignIn } from "./src/auth/SignIn";
+import { Lockup } from "./src/components/Logo";
+import { useTheme } from "./src/theme";
 
 export default function App() {
-  const colors = palette[useColorScheme() === "dark" ? "dark" : "light"];
-  const { health, error, realtime } = useServerStatus();
+  const [fontsLoaded] = useFonts({
+    InstrumentSans_400Regular,
+    InstrumentSans_500Medium,
+    InstrumentSans_600SemiBold,
+  });
+  const { colors, compact, height } = useTheme();
 
-  const rows: { label: string; value: string; ok?: boolean }[] = [
-    { label: "Client", value: `mobile · ${Platform.OS}` },
-    { label: "Server", value: baseUrl },
-    {
-      label: "API",
-      value: health ? `${health.status} · v${health.version}` : (error ?? "checking…"),
-      ok: health?.status === "ok",
-    },
-    { label: "Database", value: health?.database ?? "…", ok: health?.database === "ok" },
-    { label: "Realtime", value: realtime, ok: realtime === "open" },
-  ];
+  // Bundled with the app, so this is a single frame or two.
+  if (!fontsLoaded) return <View style={{ flex: 1, backgroundColor: colors.bg }} />;
 
   return (
-    <View style={[styles.screen, { backgroundColor: colors.bg }]}>
-      <Image source={require("./assets/icon.png")} style={styles.icon} />
-      <Text style={[styles.title, { color: colors.fg }]}>Smart Bot</Text>
-
-      <View style={[styles.table, { borderColor: colors.line }]}>
-        {rows.map((row) => (
-          <View key={row.label} style={[styles.row, { borderColor: colors.line }]}>
-            <Text style={{ color: colors.muted }}>{row.label}</Text>
-            <View style={styles.value}>
-              {row.ok !== undefined && (
-                <View style={[styles.dot, { backgroundColor: row.ok ? colors.signal : BAD }]} />
-              )}
-              <Text style={{ color: colors.fg }} numberOfLines={1}>
-                {row.value}
-              </Text>
+    <SafeAreaProvider>
+      <SafeAreaView style={[styles.fill, { backgroundColor: colors.bg }]}>
+        <KeyboardAvoidingView style={styles.fill} behavior="padding">
+          <ScrollView
+            contentContainerStyle={styles.content}
+            keyboardShouldPersistTaps="handled"
+            showsVerticalScrollIndicator={false}
+          >
+            <View style={[styles.header, { paddingHorizontal: compact ? 0 : 8 }]}>
+              <Lockup height={22} />
             </View>
-          </View>
-        ))}
-      </View>
+            <View
+              style={[
+                styles.main,
+                { paddingTop: compact ? 8 : 24, paddingBottom: height * (compact ? 0.08 : 0.12) },
+              ]}
+            >
+              <View style={styles.panel}>
+                <SignIn />
+              </View>
+            </View>
+          </ScrollView>
+        </KeyboardAvoidingView>
+      </SafeAreaView>
       <StatusBar style="auto" />
-    </View>
+    </SafeAreaProvider>
   );
 }
 
 const styles = StyleSheet.create({
-  screen: { flex: 1, alignItems: "center", justifyContent: "center", padding: 24, gap: 16 },
-  icon: { width: 88, height: 88, borderRadius: 20 },
-  title: { fontSize: 24, fontWeight: "600", marginBottom: 24 },
-  table: { alignSelf: "stretch", maxWidth: 420, borderTopWidth: StyleSheet.hairlineWidth },
-  row: {
-    flexDirection: "row",
-    justifyContent: "space-between",
-    gap: 16,
-    paddingVertical: 12,
-    borderBottomWidth: StyleSheet.hairlineWidth,
-  },
-  value: { flexDirection: "row", alignItems: "center", gap: 8, flexShrink: 1 },
-  dot: { width: 8, height: 8, borderRadius: 4 },
+  fill: { flex: 1 },
+  content: { flexGrow: 1, paddingHorizontal: 16 },
+  header: { paddingVertical: 22, alignItems: "flex-start" },
+  main: { flex: 1, alignItems: "center", justifyContent: "center" },
+  panel: { width: "100%", maxWidth: 360 },
 });

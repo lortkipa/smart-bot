@@ -2,7 +2,7 @@
 
 Open source, always-on AI agent platform. Agents run in the cloud around the clock, on a Linux desktop VM per user, and you can watch or take over from web, desktop, or mobile. See [CLAUDE.md](CLAUDE.md) for the design.
 
-> Status: scaffold. Every app runs and the clients show a live connection to the server (API, database, WebSocket). Agents and VMs are not built yet.
+> Status: scaffold. Every app runs. The clients show the sign-in flow, backed by a mock auth client until the server implements auth (the mock's verification code is `123456`). Agents and VMs are not built yet.
 
 ## Prerequisites
 
