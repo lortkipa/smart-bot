@@ -54,6 +54,7 @@ packages/
   db/          # Drizzle schema + migrations
 images/
   vm/          # build for the VM's root filesystem and kernel
+brand/         # logo + icon SVG sources, export.sh renders all PNG/ICO assets (see brand/README.md)
 deploy/        # docker-compose and config
 ```
 
